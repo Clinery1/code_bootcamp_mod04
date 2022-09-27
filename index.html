@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Coding quiz
+        </title>
+        <link rel="stylesheet" href="./index.css">
+    </head>
+    <body>
+        <h1>
+            Coding quiz
+        </h1>
+        <div id="leaderboard">
+        </div>
+        <button id="start_quiz">
+            Start quiz
+        </button>
+        <div id="question_area" style="display:none">
+            <br>
+            <p id="time">
+            </p>
+            <br>
+            <h2 id="question_title">
+                Question title here
+            </h2>
+            <br>
+            <form>
+                <ul id="question_answer_list">
+                </ul>
+            </form>
+            <br>
+            <button id="submit_button">
+                Submit
+            </button>
+        </div>
+        <div id="points_area" style="display:none">
+            <br>
+            <p id="points_text">
+            </p>
+            <br>
+            <label for="name_input">
+                Input your name to save your score:
+            </label>
+            &nbsp;
+            <input type="text" name="name_input" id="name_input">
+            <br>
+            <br>
+            <button id="score_submit_button">
+                Save score
+            </button>
+            <button id="leaderboard_button">
+                Back to the leaderboard
+            </button>
+            <button id="restart_quiz">
+                Restart the quiz
+            </button>
+        </div>
+        <script src="./index.js">
+        </script>
+    </body>
+</html>

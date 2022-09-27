@@ -1,0 +1,43 @@
+(!!DOCTYPE html)
+(html
+    (head
+        (title "Coding quiz")
+        (!link (rel stylesheet) (href "./index.css")))
+    (body
+        (h1 "Coding quiz")
+        ((div (id leaderboard)))
+        ((button
+            (id start_quiz))
+            "Start quiz")
+        ((div (id question_area) (style "display:none"))
+            (!br)
+            ((p (id time)))
+            (!br)
+            ((h2 (id question_title)) "Question title here")
+            (!br)
+            (form
+                ((ul
+                    (id question_answer_list))))
+            (!br)
+            ((button
+                (id submit_button))
+                "Submit"))
+        ((div (id points_area) (style "display:none"))
+            (!br)
+            ((p (id points_text)))
+            (!br)
+            ((label (for name_input))
+                "Input your name to save your score:")
+            "&nbsp;"
+            (!input (type text) (name name_input) (id name_input))
+            (!br)
+            (!br)
+            ((button (id score_submit_button))
+                "Save score")
+            ((button
+                (id leaderboard_button))
+                "Back to the leaderboard")
+            ((button
+                (id restart_quiz))
+                "Restart the quiz"))
+        ((script (src "./index.js")))))
