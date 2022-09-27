@@ -168,18 +168,13 @@ function show_leaderboard() {
         people.push([name,Number(localStorage.getItem(name))]);
     }
     people.sort(function(a,b){return b[1]-a[1]})
-    let list=document.createElement("ol");
-    LEADERBOARD.replaceChildren();
+    let list=LEADERBOARD.children[2];
+    list.replaceChildren();
     for (let i=0;i<people.length;i+=1) {
         let item=document.createElement("li");
         item.innerText=people[i][0]+": "+String(people[i][1])+"%";
         list.appendChild(item);
     }
-    if (people.length>0) {
-        LEADERBOARD.appendChild(document.createElement("br"));
-    }
-    LEADERBOARD.appendChild(list);
-    LEADERBOARD.appendChild(document.createElement("br"));
 }
 
 
@@ -210,3 +205,4 @@ RESTART_BUTTON.addEventListener("click",start_function);
 START_BUTTON.addEventListener("click",start_function);
 LEADERBOARD_BUTTON.addEventListener("click",show_leaderboard);
 show_leaderboard();
+document.getElementById("question_count").innerText+=String(QUESTIONS.length)+" questions";

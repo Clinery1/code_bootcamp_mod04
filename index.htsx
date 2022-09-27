@@ -5,7 +5,12 @@
         (!link (rel stylesheet) (href "./index.css")))
     (body
         (h1 "Coding quiz")
-        ((div (id leaderboard)))
+        ((p (id question_count)))
+        ((div (id leaderboard))
+            (!br)
+            (h2 "Leaderboard")
+            (ol)
+            (!br))
         ((button
             (id start_quiz))
             "Start quiz")
