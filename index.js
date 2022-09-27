@@ -5,6 +5,7 @@ var interval;
 var time=0;
 
 
+// Create a list of `Question` objects
 const QUESTIONS=[
     Question("What does HTML stand for?",[
         ["HyperTextMarkupLanguage",true],
@@ -27,6 +28,7 @@ const QUESTIONS=[
         ["A style of music",false],
     ]),
 ];
+// Get the DOM elements for easy use later
 const LEADERBOARD=document.getElementById("leaderboard");
 const POINTS_AREA=document.getElementById("points_area");
 const POINTS_TEXT=document.getElementById("points_text");
@@ -58,14 +60,15 @@ function Question(text,answers,multi_choice) {
         question:text,
         answers:answers,
         display_answers:function(question_box,answers_box) {
+            // Set the question number and text
             question_box.innerText=String(QUESTIONS.length-questions_to_answer.length)+". "+this.question;
+            // Remove the previous answers (if any)
             answers_box.replaceChildren();
             let answer_indices=[];
             // Create a list of indices
             for (let i=0;i<this.answers.length;i+=1) {
                 answer_indices.push(i);
             }
-            console.log(answer_indices);
             while (answer_indices.length>0) {
                 let answers_idx=answer_indices.splice(int_rand_range(0,answer_indices.length),1)[0];
                 let box=document.createElement("li");
@@ -97,7 +100,7 @@ function Question(text,answers,multi_choice) {
 /// Copied from my module03 homework `Clinery1/code_bootcamp_mod03/index.js[12:17]`
 /// @min: inclusive minimum value
 /// @max: exclusive maximum value
-/// @ret: Number
+/// `function int_rand_range(min:Number,max:Number):Number`
 function int_rand_range(min,max) {
     return Math.floor((Math.random()*(max-min))+min);
 }
@@ -105,8 +108,10 @@ function int_rand_range(min,max) {
 function submit_question(event) {
     let incorrect=0;
     let correct=0;
+    // Sum the correct and incorrect answers
     for (let i=0;i<QUESTION_ANSWER_LIST.children.length;i+=1) {
         let should_be_checked=QUESTION_ANSWER_LIST.children[i].getAttribute("correct")==="true";
+        // If the user set this answer, then check if it should be checked or not and award points accordingly
         if (QUESTION_ANSWER_LIST.children[i].children[0].checked) {
             if (should_be_checked) {
                 correct+=1;
@@ -116,18 +121,24 @@ function submit_question(event) {
         }
     }
     points+=correct;
+    // Can be swapped out for `points-=incorrect` to penalize the user for all incorrect answers
     time-=incorrect;
+    // Update the seconds left so the user doesn't have to wait a second to know how much time they lost.
     TIMER.innerText=String(time)+" seconds left";
     next_question();
 }
 function start_quiz() {
     QUESTION_AREA.style.display="";
+    // Disable the other locations
     POINTS_AREA.style.display="none";
     LEADERBOARD.style.display="none";
+    // Reset the points
     points=0;
+    // Create the question indices list
     for (let i=0;i<QUESTIONS.length;i+=1) {
         questions_to_answer.push(i);
     }
+    // Set the timer
     let seconds_per_question=5;
     time=seconds_per_question*QUESTIONS.length;
     TIMER.innerText=String(time)+" seconds left";
@@ -139,12 +150,15 @@ function start_quiz() {
             TIMER.innerText=String(time)+" seconds left";
         }
     },1000);
+    // Call `next_question` to display the next question and avoid code reuse
     next_question();
 }
 function next_question() {
     if (questions_to_answer.length===0) {
+        // I there are no more questions to answer, then show the points
         show_points();
     } else {
+        // Otherwise display the next question
         let questions_idx=questions_to_answer.splice(int_rand_range(0,questions_to_answer.length),1)[0];
         QUESTIONS[questions_idx].display_answers(QUESTION_TITLE,QUESTION_ANSWER_LIST);
     }
@@ -185,17 +199,19 @@ SCORE_SUBMIT_BUTTON.addEventListener("click",function() {
         return;
     }
     let score=((points/MAX_POINTS)*100).toPrecision(4);
-    console.log("Submit "+NAME_INPUT.value+" with "+String(score)+"%");
     let previous_score=localStorage.getItem(NAME_INPUT.value);
     if (previous_score===null||previous_score===undefined) {
+        // If the user did not have a stored score before now, then set one
         localStorage.setItem(NAME_INPUT.value,String(score));
     } else {
+        // If the user had a stored score before now, then check to see if it is smaller. If it is, then save the lower score.
         if (Number(previous_score)<score) {
             localStorage.setItem(NAME_INPUT.value,String(score));
         }
     }
     show_leaderboard();
 });
+// A small variable so I don't have to copy code between the start and restart buttons
 let start_function=function(event) {
     event.target.style.display="none";
     QUESTION_AREA.style.display="";
@@ -205,4 +221,5 @@ RESTART_BUTTON.addEventListener("click",start_function);
 START_BUTTON.addEventListener("click",start_function);
 LEADERBOARD_BUTTON.addEventListener("click",show_leaderboard);
 show_leaderboard();
+// Set the question counter
 document.getElementById("question_count").innerText+=String(QUESTIONS.length)+" questions";
